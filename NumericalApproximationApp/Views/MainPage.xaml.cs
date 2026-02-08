@@ -41,5 +41,10 @@ namespace NumericalApproximationApp.Views
         {
             await Shell.Current.GoToAsync("//EulerPage");
         }
+
+        private async void OnDataAnalysisTapped(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//DataAnalysisPage");
+        }
     }
 }

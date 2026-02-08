@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:NumericalApproximationApp.ViewModels"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             x:Class="NumericalApproximationApp.Views.DataAnalysisPage"
+             BackgroundColor="{StaticResource PrimaryDark}"
+             Title="Analiza podataka">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label Text="📊 Analiza mjernih podataka" Style="{StaticResource HeroTitle}" />
+            <BoxView HeightRequest="3" Color="{StaticResource AccentBlue}"
+                     WidthRequest="50" HorizontalOptions="Start" />
+
+            <!-- Opis -->
+            <Frame BackgroundColor="{StaticResource SecondaryDark}"
+                   CornerRadius="8" Padding="12"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Unesite bilo koje mjerne podatke i dobijte kompletnu numeričku analizu: interpolacija između tačaka, ukupna akumulacija (integral), brzina promjene (derivacija) i prosjek."
+                           TextColor="{StaticResource TextSecondary}" FontSize="12" LineHeight="1.4" />
+                    <HorizontalStackLayout Spacing="6">
+                        <Frame BackgroundColor="#1A2332" CornerRadius="4"
+                               Padding="6,3" BorderColor="Transparent" HasShadow="False">
+                            <Label Text="🏥 Medicina" TextColor="{StaticResource AccentCyan}" FontSize="9" />
+                        </Frame>
+                        <Frame BackgroundColor="#1A2332" CornerRadius="4"
+                               Padding="6,3" BorderColor="Transparent" HasShadow="False">
+                            <Label Text="🏗️ Inženjerstvo" TextColor="{StaticResource AccentGreen}" FontSize="9" />
+                        </Frame>
+                        <Frame BackgroundColor="#1A2332" CornerRadius="4"
+                               Padding="6,3" BorderColor="Transparent" HasShadow="False">
+                            <Label Text="💰 Finansije" TextColor="{StaticResource AccentOrange}" FontSize="9" />
+                        </Frame>
+                        <Frame BackgroundColor="#1A2332" CornerRadius="4"
+                               Padding="6,3" BorderColor="Transparent" HasShadow="False">
+                            <Label Text="🎓 Edukacija" TextColor="{StaticResource AccentPurple}" FontSize="9" />
+                        </Frame>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Unos jedinica -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="X JEDINICA (npr. sati, km, dani)" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding XUnitInput}"
+                               Style="{StaticResource DarkEntry}" />
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label Text="Y JEDINICA (npr. °C, m/s, KM)" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding YUnitInput}"
+                               Style="{StaticResource DarkEntry}" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Unos podataka -->
+            <Label Text="X VRIJEDNOSTI (razdvojene zarezom)" Style="{StaticResource FieldLabel}" />
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="0"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <Entry Text="{Binding XDataInput}"
+                       Style="{StaticResource DarkEntry}"
+                       Placeholder="npr. 0, 2, 4, 6, 8" />
+            </Frame>
+
+            <Label Text="Y VRIJEDNOSTI (razdvojene zarezom)" Style="{StaticResource FieldLabel}" />
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="0"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <Entry Text="{Binding YDataInput}"
+                       Style="{StaticResource DarkEntry}"
+                       Placeholder="npr. 36.6, 37.2, 38.5, 37.1, 36.6" />
+            </Frame>
+
+            <Button Text="📊 Analiziraj podatke"
+                    Command="{Binding AnalyzeCommand}"
+                    BackgroundColor="{StaticResource AccentBlue}"
+                    TextColor="White" FontAttributes="Bold"
+                    CornerRadius="8" HeightRequest="48" FontSize="16" />
+
+            <!-- REZULTATI -->
+            <VerticalStackLayout Spacing="10" IsVisible="{Binding HasResults}">
+
+                <!-- Kartice rezultata -->
+                <Label Text="REZULTATI ANALIZE" Style="{StaticResource FieldLabel}" Margin="0,5,0,0" />
+
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                    <!-- Integral -->
+                    <Frame Grid.Column="0" Grid.Row="0"
+                           BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="12"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="∫ UKUPNA AKUMULACIJA"
+                                   TextColor="{StaticResource AccentBlue}"
+                                   FontSize="9" FontAttributes="Bold" />
+                            <Label Text="{Binding IntegralResult}"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="14" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Prosjek -->
+                    <Frame Grid.Column="1" Grid.Row="0"
+                           BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="12"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="x̄ PROSJEK"
+                                   TextColor="{StaticResource AccentGreen}"
+                                   FontSize="9" FontAttributes="Bold" />
+                            <Label Text="{Binding AverageResult}"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="14" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Max rast -->
+                    <Frame Grid.Column="0" Grid.Row="1"
+                           BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="12"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="↑ NAJBRŽI RAST"
+                                   TextColor="{StaticResource AccentOrange}"
+                                   FontSize="9" FontAttributes="Bold" />
+                            <Label Text="{Binding MaxRateResult}"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="12" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Max pad -->
+                    <Frame Grid.Column="1" Grid.Row="1"
+                           BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="12"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="↓ NAJBRŽI PAD"
+                                   TextColor="{StaticResource AccentRed}"
+                                   FontSize="9" FontAttributes="Bold" />
+                            <Label Text="{Binding MinRateResult}"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   FontSize="12" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Interpolacija -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="8" Padding="12"
+                       BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="🔍 INTERPOLACIJA — PRONAĐI VRIJEDNOST IZMEĐU MJERENJA"
+                               TextColor="{StaticResource AccentCyan}"
+                               FontSize="10" FontAttributes="Bold" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                            <Frame Grid.Column="0" BackgroundColor="{StaticResource SecondaryDark}"
+                                   CornerRadius="6" Padding="0"
+                                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                                <Entry Text="{Binding InterpolateXInput}"
+                                       Style="{StaticResource DarkEntry}"
+                                       Keyboard="Numeric"
+                                       Placeholder="Unesi x vrijednost" />
+                            </Frame>
+                            <Button Grid.Column="1" Text="Nađi"
+                                    Command="{Binding InterpolateCommand}"
+                                    BackgroundColor="{StaticResource AccentCyan}"
+                                    TextColor="White" FontAttributes="Bold"
+                                    CornerRadius="6" WidthRequest="70" />
+                        </Grid>
+                        <Label Text="{Binding InterpolateResult}"
+                               TextColor="{StaticResource AccentGreen}"
+                               FontSize="14" FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Graf podataka -->
+                <Label Text="GRAF PODATAKA" Style="{StaticResource FieldLabel}" Margin="0,5,0,0" />
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="8" Padding="5"
+                       BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                    <lvc:CartesianChart
+                        Series="{Binding MainChartSeries}"
+                        XAxes="{Binding MainXAxes}"
+                        YAxes="{Binding MainYAxes}"
+                        HeightRequest="280"
+                        BackgroundColor="Transparent" />
+                </Frame>
+
+                <!-- Graf brzine promjene -->
+                <Label Text="BRZINA PROMJENE (DERIVACIJA)" Style="{StaticResource FieldLabel}" Margin="0,5,0,0" />
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="8" Padding="5"
+                       BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                    <lvc:CartesianChart
+                        Series="{Binding RateChartSeries}"
+                        XAxes="{Binding RateXAxes}"
+                        YAxes="{Binding RateYAxes}"
+                        HeightRequest="220"
+                        BackgroundColor="Transparent" />
+                </Frame>
+
+            </VerticalStackLayout>
+
+            <BoxView HeightRequest="20" Color="Transparent" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

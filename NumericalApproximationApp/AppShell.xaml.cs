@@ -13,6 +13,7 @@
             Routing.RegisterRoute("NumericalDerivativePage", typeof(Views.NumericalDerivativePage));
             Routing.RegisterRoute("LagrangePage", typeof(Views.LagrangePage));
             Routing.RegisterRoute("EulerPage", typeof(Views.EulerPage));
+            Routing.RegisterRoute("DataAnalysisPage", typeof(Views.DataAnalysisPage));
         }
     }
 }

@@ -70,7 +70,46 @@
                        TextColor="{StaticResource TextSecondary}"
                        FontSize="12" FontAttributes="Bold"
                        Margin="5,0,0,5" />
-
+                
+                <!-- Analiza podataka -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="12" Padding="0"
+                       BorderColor="{StaticResource AccentBlue}"
+                       HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDataAnalysisTapped" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="8,*">
+                        <BoxView Grid.Column="0" Color="{StaticResource AccentBlue}" />
+                        <VerticalStackLayout Grid.Column="1" Padding="15" Spacing="8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="📊 Analiza mjernih podataka"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="16" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="→"
+                       TextColor="{StaticResource AccentBlue}"
+                       FontSize="20" />
+                            </Grid>
+                            <Label Text="Unesite bilo koje mjerne podatke — dobijte interpolaciju, integral, derivaciju i kompletnu analizu."
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" LineHeight="1.3" />
+                            <HorizontalStackLayout Spacing="6">
+                                <Frame BackgroundColor="#1A2332" CornerRadius="4"
+                       Padding="6,3" BorderColor="Transparent" HasShadow="False">
+                                    <Label Text="🏥 Medicina" TextColor="{StaticResource AccentCyan}" FontSize="9" />
+                                </Frame>
+                                <Frame BackgroundColor="#1A2332" CornerRadius="4"
+                       Padding="6,3" BorderColor="Transparent" HasShadow="False">
+                                    <Label Text="🏗️ Inženjerstvo" TextColor="{StaticResource AccentGreen}" FontSize="9" />
+                                </Frame>
+                                <Frame BackgroundColor="#1A2332" CornerRadius="4"
+                       Padding="6,3" BorderColor="Transparent" HasShadow="False">
+                                    <Label Text="💰 Finansije" TextColor="{StaticResource AccentOrange}" FontSize="9" />
+                                </Frame>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+                
                 <!-- Bisekcija -->
                 <Frame BackgroundColor="{StaticResource CardDark}"
                        CornerRadius="12" Padding="0"

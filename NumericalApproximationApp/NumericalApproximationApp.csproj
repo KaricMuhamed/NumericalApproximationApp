@@ -70,6 +70,9 @@
 	  <MauiXaml Update="Views\BisectionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\DataAnalysisPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\EulerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

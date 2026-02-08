@@ -28,6 +28,7 @@ namespace NumericalApproximationApp
             builder.Services.AddTransient<Views.NumericalDerivativePage>();
             builder.Services.AddTransient<Views.LagrangePage>();
             builder.Services.AddTransient<Views.EulerPage>();
+            builder.Services.AddTransient<Views.DataAnalysisPage>();
 
             return builder.Build();
         }
