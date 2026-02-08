@@ -1,0 +1,21 @@
+﻿## .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+
+## Visual Studio
+.vs/
+*.sln.docstates
+
+## MAUI
+Platforms/Android/Resources/Resource.designer.cs
+
+## NuGet
+packages/
+
+## OS
+.DS_Store
+Thumbs.db

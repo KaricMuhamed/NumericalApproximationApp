@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:NumericalApproximationApp.ViewModels"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             x:Class="NumericalApproximationApp.Views.LagrangePage"
+             BackgroundColor="{StaticResource PrimaryDark}"
+             Title="Lagrange interpolacija">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label Text="Lagrange interpolacija" Style="{StaticResource HeroTitle}" />
+            <BoxView HeightRequest="3" Color="{StaticResource AccentCyan}"
+                     WidthRequest="50" HorizontalOptions="Start" />
+
+            <Label Text="Unesite tačke razdvojene zarezom"
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+
+            <Label Text="X VRIJEDNOSTI" Style="{StaticResource FieldLabel}" />
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="0"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <Entry Text="{Binding XPointsInput}"
+                       Style="{StaticResource DarkEntry}"
+                       Placeholder="npr. 1, 2, 4, 5" />
+            </Frame>
+
+            <Label Text="Y VRIJEDNOSTI" Style="{StaticResource FieldLabel}" />
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="0"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <Entry Text="{Binding YPointsInput}"
+                       Style="{StaticResource DarkEntry}"
+                       Placeholder="npr. 1, 3, 2, 4" />
+            </Frame>
+
+            <Label Text="IZRAČUNAJ P(x) ZA x =" Style="{StaticResource FieldLabel}" />
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="0"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <Entry Text="{Binding EvaluateXInput}"
+                       Style="{StaticResource DarkEntry}"
+                       Keyboard="Numeric" />
+            </Frame>
+
+            <Button Text="⚡ Izračunaj"
+                    Command="{Binding SolveCommand}"
+                    BackgroundColor="{StaticResource AccentCyan}"
+                    TextColor="White" FontAttributes="Bold"
+                    CornerRadius="8" HeightRequest="48" FontSize="16" />
+
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="15"
+                   BorderColor="{StaticResource BorderDark}"
+                   HasShadow="False"
+                   IsVisible="{Binding ResultText, Converter={StaticResource StringToBoolConverter}}">
+                <Label Text="{Binding ResultText}"
+                       Style="{StaticResource ResultLabel}" />
+            </Frame>
+
+            <Label Text="GRAF — INTERPOLACIONI POLINOM" Style="{StaticResource FieldLabel}"
+                   Margin="0,10,0,0" />
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="5"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <lvc:CartesianChart
+                    Series="{Binding ChartSeries}"
+                    XAxes="{Binding XAxes}"
+                    YAxes="{Binding YAxes}"
+                    HeightRequest="280"
+                    BackgroundColor="Transparent" />
+            </Frame>
+
+            <Label Text="TAČKE" Style="{StaticResource FieldLabel}"
+                   Margin="0,10,0,0" />
+
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="0"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <CollectionView ItemsSource="{Binding Points}">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="60,*,*"
+                              Padding="10,8"
+                              BackgroundColor="{StaticResource SecondaryDark}">
+                            <Label Grid.Column="0" Text="Index"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="1" Text="x"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="2" Text="y"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="60,*,*" Padding="10,6">
+                                <Label Grid.Column="0" Text="{Binding Index}"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="11" />
+                                <Label Grid.Column="1" Text="{Binding X, StringFormat='{0:F4}'}"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="11" />
+                                <Label Grid.Column="2" Text="{Binding Y, StringFormat='{0:F4}'}"
+                                       TextColor="{StaticResource AccentCyan}" FontSize="11" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            <BoxView HeightRequest="20" Color="Transparent" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

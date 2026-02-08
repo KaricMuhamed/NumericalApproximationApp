@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:NumericalApproximationApp.ViewModels"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             x:Class="NumericalApproximationApp.Views.EulerPage"
+             BackgroundColor="{StaticResource PrimaryDark}"
+             Title="Euler metoda">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label Text="Euler metoda" Style="{StaticResource HeroTitle}" />
+            <BoxView HeightRequest="3" Color="{StaticResource AccentPurple}"
+                     WidthRequest="50" HorizontalOptions="Start" />
+
+            <Label Text="Rješava y' = f(x, y) sa početnim uvjetom y(x₀) = y₀"
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+
+            <Label Text="FUNKCIJA f(x, y) = y'" Style="{StaticResource FieldLabel}" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <Frame Grid.Column="0" BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="8" Padding="0"
+                       BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                    <Entry Text="{Binding FunctionInput}"
+                           Style="{StaticResource DarkEntry}"
+                           Placeholder="npr. x + y" />
+                </Frame>
+                <Button Grid.Column="1" Text="📷"
+                        FontSize="20"
+                        BackgroundColor="{StaticResource AccentCyan}"
+                        TextColor="White"
+                        CornerRadius="8"
+                        WidthRequest="50" HeightRequest="50"
+                        Clicked="OnCameraTapped" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="x₀ (POČETNI x)" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding X0Input}"
+                               Style="{StaticResource DarkEntry}"
+                               Keyboard="Numeric" />
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label Text="y₀ (POČETNI y)" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding Y0Input}"
+                               Style="{StaticResource DarkEntry}"
+                               Keyboard="Numeric" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="KRAJNJI x" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding XEndInput}"
+                               Style="{StaticResource DarkEntry}"
+                               Keyboard="Numeric" />
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label Text="KORAK h" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding HInput}"
+                               Style="{StaticResource DarkEntry}"
+                               Keyboard="Numeric" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Button Text="⚡ Izračunaj"
+                    Command="{Binding SolveCommand}"
+                    BackgroundColor="{StaticResource AccentPurple}"
+                    TextColor="White" FontAttributes="Bold"
+                    CornerRadius="8" HeightRequest="48" FontSize="16" />
+
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="15"
+                   BorderColor="{StaticResource BorderDark}"
+                   HasShadow="False"
+                   IsVisible="{Binding ResultText, Converter={StaticResource StringToBoolConverter}}">
+                <Label Text="{Binding ResultText}"
+                       Style="{StaticResource ResultLabel}" />
+            </Frame>
+
+            <Label Text="GRAF — APROKSIMACIJA RJEŠENJA" Style="{StaticResource FieldLabel}"
+                   Margin="0,10,0,0" />
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="5"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <lvc:CartesianChart
+                    Series="{Binding ChartSeries}"
+                    XAxes="{Binding XAxes}"
+                    YAxes="{Binding YAxes}"
+                    HeightRequest="280"
+                    BackgroundColor="Transparent" />
+            </Frame>
+
+            <Label Text="ITERACIJE" Style="{StaticResource FieldLabel}"
+                   Margin="0,10,0,0" />
+
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="0"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <CollectionView ItemsSource="{Binding Iterations}">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="40,*,*,*,*"
+                              Padding="10,8"
+                              BackgroundColor="{StaticResource SecondaryDark}">
+                            <Label Grid.Column="0" Text="#"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="1" Text="x"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="2" Text="y"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="3" Text="Nagib"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="4" Text="Δy"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="40,*,*,*,*" Padding="10,6">
+                                <Label Grid.Column="0" Text="{Binding Step}"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="11" />
+                                <Label Grid.Column="1" Text="{Binding X, StringFormat='{0:F4}'}"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="11" />
+                                <Label Grid.Column="2" Text="{Binding Y, StringFormat='{0:F6}'}"
+                                       TextColor="{StaticResource AccentPurple}" FontSize="11" />
+                                <Label Grid.Column="3" Text="{Binding Slope, StringFormat='{0:F6}'}"
+                                       TextColor="{StaticResource TextSecondary}" FontSize="11" />
+                                <Label Grid.Column="4" Text="{Binding DeltaY, StringFormat='{0:F6}'}"
+                                       TextColor="{StaticResource AccentOrange}" FontSize="11" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            <BoxView HeightRequest="20" Color="Transparent" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

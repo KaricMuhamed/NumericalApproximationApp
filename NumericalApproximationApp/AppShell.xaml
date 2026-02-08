@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="NumericalApproximationApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:NumericalApproximationApp.Views"
+    Shell.FlyoutBehavior="Flyout">
+
+    <FlyoutItem Title="Početna">
+        <ShellContent
+            Title="Početna"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Bisekcija">
+        <ShellContent
+            Title="Bisekcija"
+            ContentTemplate="{DataTemplate views:BisectionPage}"
+            Route="BisectionPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Newton-Raphson">
+        <ShellContent
+        Title="Newton-Raphson"
+        ContentTemplate="{DataTemplate views:NewtonRaphsonPage}"
+        Route="NewtonRaphsonPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Trapezno pravilo">
+        <ShellContent
+        Title="Trapezno pravilo"
+        ContentTemplate="{DataTemplate views:TrapezoidalPage}"
+        Route="TrapezoidalPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Simpsonovo pravilo">
+        <ShellContent
+        Title="Simpsonovo pravilo"
+        ContentTemplate="{DataTemplate views:SimpsonPage}"
+        Route="SimpsonPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Numeričko deriviranje">
+        <ShellContent
+        Title="Numeričko deriviranje"
+        ContentTemplate="{DataTemplate views:NumericalDerivativePage}"
+        Route="NumericalDerivativePage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Lagrange interpolacija">
+        <ShellContent
+        Title="Lagrange interpolacija"
+        ContentTemplate="{DataTemplate views:LagrangePage}"
+        Route="LagrangePage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Euler metoda">
+        <ShellContent
+        Title="Euler metoda"
+        ContentTemplate="{DataTemplate views:EulerPage}"
+        Route="EulerPage" />
+    </FlyoutItem>
+</Shell>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:NumericalApproximationApp.ViewModels"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             x:Class="NumericalApproximationApp.Views.BisectionPage"
+             BackgroundColor="{StaticResource PrimaryDark}"
+             Title="Metoda Bisekcije">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label Text="Metoda Bisekcije" Style="{StaticResource HeroTitle}" />
+            <BoxView HeightRequest="3" Color="{StaticResource AccentBlue}"
+                     WidthRequest="50" HorizontalOptions="Start" />
+
+            <Label Text="FUNKCIJA f(x)" Style="{StaticResource FieldLabel}" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <Frame Grid.Column="0" BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="8" Padding="0"
+                       BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                                <Entry Text="{Binding FunctionInput}"
+                           Style="{StaticResource DarkEntry}"
+                           Placeholder="npr. x^2 - 4" />
+                            </Frame>
+                            <Button Grid.Column="1" Text="📷"
+                        FontSize="20"
+                        BackgroundColor="{StaticResource AccentCyan}"
+                        TextColor="White"
+                        CornerRadius="8"
+                        WidthRequest="50" HeightRequest="50"
+                        Clicked="OnCameraTapped" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="GRANICA a" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding AInput}"
+                               Style="{StaticResource DarkEntry}"
+                               Keyboard="Numeric" />
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label Text="GRANICA b" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding BInput}"
+                               Style="{StaticResource DarkEntry}"
+                               Keyboard="Numeric" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="TOLERANCIJA" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding ToleranceInput}"
+                               Style="{StaticResource DarkEntry}"
+                               Keyboard="Numeric" />
+                    </Frame>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label Text="MAX ITERACIJA" Style="{StaticResource FieldLabel}" />
+                    <Frame BackgroundColor="{StaticResource CardDark}"
+                           CornerRadius="8" Padding="0"
+                           BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                        <Entry Text="{Binding MaxIterationsInput}"
+                               Style="{StaticResource DarkEntry}"
+                               Keyboard="Numeric" />
+                    </Frame>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Button Text="⚡ Izračunaj"
+                    Command="{Binding SolveCommand}"
+                    Style="{StaticResource PrimaryButton}" />
+
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="15"
+                   BorderColor="{StaticResource BorderDark}"
+                   HasShadow="False"
+                   IsVisible="{Binding ResultText, Converter={StaticResource StringToBoolConverter}}">
+                <Label Text="{Binding ResultText}"
+                       Style="{StaticResource ResultLabel}" />
+            </Frame>
+
+            <Label Text="GRAF FUNKCIJE" Style="{StaticResource FieldLabel}"
+                   Margin="0,10,0,0" />
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="5"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <lvc:CartesianChart
+                    Series="{Binding ChartSeries}"
+                    XAxes="{Binding XAxes}"
+                    YAxes="{Binding YAxes}"
+                    HeightRequest="280"
+                    BackgroundColor="Transparent" />
+            </Frame>
+
+            <Label Text="ITERACIJE" Style="{StaticResource FieldLabel}"
+                   Margin="0,10,0,0" />
+
+            <Frame BackgroundColor="{StaticResource CardDark}"
+                   CornerRadius="8" Padding="0"
+                   BorderColor="{StaticResource BorderDark}" HasShadow="False">
+                <CollectionView ItemsSource="{Binding Iterations}">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="40,*,*,*,*,*"
+                              Padding="10,8"
+                              BackgroundColor="{StaticResource SecondaryDark}">
+                            <Label Grid.Column="0" Text="#"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="1" Text="a"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="2" Text="b"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="3" Text="Sredina"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="4" Text="f(mid)"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                            <Label Grid.Column="5" Text="Greška"
+                                   TextColor="{StaticResource AccentCyan}"
+                                   FontSize="11" FontAttributes="Bold" />
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="40,*,*,*,*,*" Padding="10,6">
+                                <Label Grid.Column="0" Text="{Binding Step}"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="11" />
+                                <Label Grid.Column="1" Text="{Binding A, StringFormat='{0:F4}'}"
+                                       TextColor="{StaticResource TextSecondary}" FontSize="11" />
+                                <Label Grid.Column="2" Text="{Binding B, StringFormat='{0:F4}'}"
+                                       TextColor="{StaticResource TextSecondary}" FontSize="11" />
+                                <Label Grid.Column="3" Text="{Binding Midpoint, StringFormat='{0:F6}'}"
+                                       TextColor="{StaticResource TextPrimary}" FontSize="11" />
+                                <Label Grid.Column="4" Text="{Binding FMidpoint, StringFormat='{0:F6}'}"
+                                       TextColor="{StaticResource TextSecondary}" FontSize="11" />
+                                <Label Grid.Column="5" Text="{Binding Error, StringFormat='{0:F6}'}"
+                                       TextColor="{StaticResource AccentOrange}" FontSize="11" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            <BoxView HeightRequest="20" Color="Transparent" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

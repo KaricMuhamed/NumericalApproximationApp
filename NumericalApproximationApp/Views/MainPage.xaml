@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NumericalApproximationApp.Views.MainPage"
+             BackgroundColor="{StaticResource PrimaryDark}"
+             Title="Početna">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <Grid BackgroundColor="{StaticResource SecondaryDark}" Padding="30,50,30,40">
+                <VerticalStackLayout Spacing="15">
+
+                    <Frame BackgroundColor="{StaticResource AccentBlue}"
+                           CornerRadius="20"
+                           WidthRequest="70" HeightRequest="70"
+                           HorizontalOptions="Start" Padding="0"
+                           BorderColor="Transparent">
+                        <Label Text="∑" TextColor="White"
+                               FontSize="36" FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Frame>
+
+                    <Label Text="Numerička" Style="{StaticResource HeroTitle}" />
+                    <Label Text="Aproksimacija"
+                           TextColor="{StaticResource AccentCyan}"
+                           FontSize="32" FontAttributes="Bold"
+                           Margin="0,-10,0,0" />
+
+                    <BoxView HeightRequest="3"
+                             Color="{StaticResource AccentBlue}"
+                             WidthRequest="60"
+                             HorizontalOptions="Start"
+                             Margin="0,5,0,0" />
+
+                    <Label Text="Interaktivna aplikacija za numeričke metode. Unesite funkciju ručno ili skenirajte kamerom i vizualizirajte rezultate u realnom vremenu."
+                           Style="{StaticResource BodyText}"
+                           LineHeight="1.5" />
+
+                    <Grid ColumnDefinitions="*,*,*" Margin="0,15,0,0">
+                        <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                            <Label Text="7" TextColor="{StaticResource AccentBlue}"
+                                   FontSize="24" FontAttributes="Bold"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Metoda" Style="{StaticResource BodyText}"
+                                   HorizontalOptions="Center" FontSize="11" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                            <Label Text="∞" TextColor="{StaticResource AccentCyan}"
+                                   FontSize="24" FontAttributes="Bold"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Funkcija" Style="{StaticResource BodyText}"
+                                   HorizontalOptions="Center" FontSize="11" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                            <Label Text="📷" FontSize="24"
+                                   HorizontalOptions="Center" />
+                            <Label Text="OCR Scan" Style="{StaticResource BodyText}"
+                                   HorizontalOptions="Center" FontSize="11" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Grid>
+
+            <VerticalStackLayout Padding="20,25" Spacing="15"
+                                 BackgroundColor="{StaticResource PrimaryDark}">
+
+                <Label Text="NUMERIČKE METODE"
+                       TextColor="{StaticResource TextSecondary}"
+                       FontSize="12" FontAttributes="Bold"
+                       Margin="5,0,0,5" />
+
+                <!-- Bisekcija -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="12" Padding="0"
+                       BorderColor="{StaticResource BorderDark}"
+                       HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBisectionTapped" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="8,*">
+                        <BoxView Grid.Column="0" Color="{StaticResource AccentBlue}" />
+                        <VerticalStackLayout Grid.Column="1" Padding="15" Spacing="5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Metoda Bisekcije"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       FontSize="16" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="→"
+                                       TextColor="{StaticResource AccentBlue}"
+                                       FontSize="20" />
+                            </Grid>
+                            <Label Text="Traženje nula funkcije metodom polovljenja intervala"
+                                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+
+                <!-- Newton-Raphson -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="12" Padding="0"
+                       BorderColor="{StaticResource BorderDark}"
+                       HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnNewtonRaphsonTapped" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="8,*">
+                        <BoxView Grid.Column="0" Color="{StaticResource AccentPurple}" />
+                        <VerticalStackLayout Grid.Column="1" Padding="15" Spacing="5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Newton-Raphson"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="16" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="→"
+                       TextColor="{StaticResource AccentPurple}"
+                       FontSize="20" />
+                            </Grid>
+                            <Label Text="Brzo pronalaženje nula koristeći derivaciju funkcije"
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+                
+                <!-- Trapezno -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="12" Padding="0"
+                       BorderColor="{StaticResource BorderDark}"
+                       HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnTrapezoidalTapped" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="8,*">
+                        <BoxView Grid.Column="0" Color="{StaticResource AccentGreen}" />
+                        <VerticalStackLayout Grid.Column="1" Padding="15" Spacing="5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Trapezno pravilo"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="16" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="→"
+                       TextColor="{StaticResource AccentGreen}"
+                       FontSize="20" />
+                            </Grid>
+                            <Label Text="Numerička integracija pomoću trapezne aproksimacije"
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+
+                <!-- Simpson -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="12" Padding="0"
+                       BorderColor="{StaticResource BorderDark}"
+                       HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSimpsonTapped" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="8,*">
+                        <BoxView Grid.Column="0" Color="{StaticResource AccentOrange}" />
+                        <VerticalStackLayout Grid.Column="1" Padding="15" Spacing="5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Simpsonovo pravilo"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="16" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="→"
+                       TextColor="{StaticResource AccentOrange}"
+                       FontSize="20" />
+                            </Grid>
+                            <Label Text="Precizna numerička integracija pomoću paraboličke aproksimacije"
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+
+                <!-- Numeričko deriviranje -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="12" Padding="0"
+                       BorderColor="{StaticResource BorderDark}"
+                       HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDerivativeTapped" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="8,*">
+                        <BoxView Grid.Column="0" Color="{StaticResource AccentRed}" />
+                        <VerticalStackLayout Grid.Column="1" Padding="15" Spacing="5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Numeričko deriviranje"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="16" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="→"
+                       TextColor="{StaticResource AccentRed}"
+                       FontSize="20" />
+                            </Grid>
+                            <Label Text="Aproksimacija derivacije funkcije u zadanoj tački"
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+
+                <!-- Lagrange interpolacija -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="12" Padding="0"
+                       BorderColor="{StaticResource BorderDark}"
+                       HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLagrangeTapped" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="8,*">
+                        <BoxView Grid.Column="0" Color="{StaticResource AccentCyan}" />
+                        <VerticalStackLayout Grid.Column="1" Padding="15" Spacing="5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Lagrange interpolacija"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="16" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="→"
+                       TextColor="{StaticResource AccentCyan}"
+                       FontSize="20" />
+                            </Grid>
+                            <Label Text="Konstrukcija polinoma koji prolazi kroz zadane tačke"
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+
+                <!-- Euler metoda -->
+                <Frame BackgroundColor="{StaticResource CardDark}"
+                       CornerRadius="12" Padding="0"
+                       BorderColor="{StaticResource BorderDark}"
+                       HasShadow="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEulerTapped" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="8,*">
+                        <BoxView Grid.Column="0" Color="{StaticResource AccentPurple}" />
+                        <VerticalStackLayout Grid.Column="1" Padding="15" Spacing="5">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Euler metoda"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="16" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="→"
+                       TextColor="{StaticResource AccentPurple}"
+                       FontSize="20" />
+                            </Grid>
+                            <Label Text="Rješavanje diferencijalnih jednačina korak po korak"
+                   TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Padding="20,15"
+                                 BackgroundColor="{StaticResource SecondaryDark}">
+                <Label Text="Numerical Approximation App v1.0"
+                       TextColor="{StaticResource TextSecondary}"
+                       FontSize="11" HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
